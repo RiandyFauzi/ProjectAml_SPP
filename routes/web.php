@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| Here is where you can sppter web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
@@ -23,9 +23,29 @@ Route::post('postlogin', 'LoginController@login')->name('postlogin');
 Route::get('logout', 'LoginController@logout')->name('logout');
 Route::resource('pembayaran','PembayaranController');
 
+Route::prefix('/kelas')->name('kelas.')->group(function () {
+    Route::get('/', 'KelasController@index')->name('index');
+    Route::post('/create', 'KelasController@create')->name('create');
+    Route::get('/edit/{id}', 'KelasController@edit')->name('edit');
+    Route::post('/update/{id}', 'KelasController@update')->name('update');
+    Route::get('/delete/{id}', 'KelasController@destroy')->name('delete');
+});
+
+
+Route::prefix('/spp')->name('spp.')->group(function () {
+    Route::get('/', 'SppController@index')->name('index');
+    Route::post('/create', 'SppController@create')->name('create');
+    Route::get('/edit/{id}', 'SppController@edit')->name('edit');
+    Route::post('/update/{id}', 'SppController@update')->name('update');
+    Route::get('/delete/{id}', 'SppController@destroy')->name('delete');
+});
+
+
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 });
+
 
 Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
     Route::get('user', 'UserController@index')->name('user');
